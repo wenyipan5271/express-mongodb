@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录页面</title>
+</head>
+<body>
+    <h1>登录页面</h1>
+   <div>
+        <form id="loginForm">
+            <p>
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" placeholder="用户名">
+            </p>
+            <p>
+                <label for="password">密码 : </label>
+                <input type="password" id="password" name="password" placeholder="密码">
+            </p>
+            <p>
+                <input id="loginBtn" type="button" value="登录">
+            </p>
+        </form>
+        <!-- <button type="button" class="testBtn">测试</button> -->
+        <a href="/register" class="registerBtn">去注册</a>
+    </div>
+</body>
+<script src="/javascripts/jquery-3.1.0.min.js"></script>
+<script>
+    $(function() {
+        // $('.testBtn').click(function(){
+        //     $.ajax({
+        //         url:'/login',
+        //         type:'post',
+        //         data: {username:'admin',password:'123'},
+        //         success:function(res){
+        //             console.log(res)
+        //         }
+        //     })
+        // })
+        $('#loginBtn').click(function(){
+            $.ajax({
+                url: '/login',
+                type: 'post',
+                data: {username:$('#username').val(),password:$('#password').val()},
+                success:function(res){
+                    console.log(res)
+                    if(res.returnCode === '200'){
+                        window.location.href = '/'
+                    }
+                }
+            })
+        })
+
+    })
+</script>
+</html>
