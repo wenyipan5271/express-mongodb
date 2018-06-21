@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
-
+var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mongoose = require('mongoose');
@@ -33,7 +33,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//前后台分离
+app.use(cors({
+  origin:['http://localhost:5271'],//允许这个域访问
+  methods:['GET','POST'],//只允许post和get请求
+  alloweHeaders:['Conten-Type', 'Authorization']//只允许这两种请求头的链接访问
+}));
 
 
 

@@ -28,6 +28,10 @@
                 <input type="text" id="address" name="address" placeholder="地址">
             </p>
             <p>
+                <label for="address">昵称 :</label>
+                <input type="text" id="nickname" name="nickname" placeholder="昵称">
+            </p>
+            <p>
                 <input id="registerBtn" type="button" value="注册">
             </p>
         </form>
@@ -40,7 +44,7 @@
             $.ajax({
                 url: '/register',
                 type: 'post',
-                data: {username:$('#username').val(),password:$('#password').val(),age:$('#age').val(),address:$('#address').val()},
+                data: {username:$('#username').val(),password:$('#password').val(),age:$('#age').val(),address:$('#address').val(),nickname:$('#nickname').val()},
                 success:function(res){
                     alert(res.returnMsg)
                 }

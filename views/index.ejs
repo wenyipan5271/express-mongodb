@@ -2,12 +2,26 @@
 <html>
   <head>
     <title>测试首页</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/index.css' />
   </head>
   <body>
-    <h1>首页</h1>
+    <h1>首页-用户列表</h1>
     <h3 class="userInfo"></h3>
     <p>Welcome to IndexPage</p>
+    <table id="userListTable" border="1" cellpadding="0" cellspacing="0" bordercolor="black">
+      <thead>
+        <tr>
+          <th>用户名</th>
+          <th>密码</th>
+          <th>昵称</th>
+          <th>年龄</th>
+          <th>地址</th>
+          <th>创建时间</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
   <script src="/javascripts/jquery-3.1.0.min.js"></script>
   <script>
@@ -16,8 +30,24 @@
             url:'/getUserInfo',
             type:'post',
             success:function(res){
-              console.log(res);
-              $('.userInfo').text('欢迎你,'+res.returnData.username+'!');
+              $('.userInfo').text('欢迎你,'+res.returnData.nickname+'!');
+            }
+          })
+          $.ajax({
+            url:'/getUserList',
+            type:'post',
+            success:function(res){
+              res.returnData.list.forEach(item => {
+                var oTr = $('<tr>'+
+                              '<td>'+item.username+'</td>'+
+                              '<td>'+item.password+'</td>'+
+                              '<td>'+item.nickname+'</td>'+
+                              '<td>'+item.age+'</td>'+
+                              '<td>'+item.address+'</td>'+
+                              '<td>'+item.createAt+'</td>'+
+                            '</tr>')
+                $('#userListTable tbody').append(oTr)
+              });
             }
           })
       })

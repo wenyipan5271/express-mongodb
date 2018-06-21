@@ -39,11 +39,14 @@
         //         }
         //     })
         // })
-        $('#loginBtn').click(function(){
+        function login(username,password){
             $.ajax({
                 url: '/login',
                 type: 'post',
-                data: {username:$('#username').val(),password:$('#password').val()},
+                data: {
+                    username: username,
+                    password: password
+                },
                 success:function(res){
                     console.log(res)
                     if(res.returnCode === '200'){
@@ -51,6 +54,14 @@
                     }
                 }
             })
+        }
+        $('#loginBtn').click(() => {
+            login($('#username').val(),$('#password').val());
+        })
+        $(document).keypress(ev => {
+            if(ev.keyCode === 13){
+                $('#loginBtn').trigger('click')
+            }
         })
 
     })

@@ -67,4 +67,10 @@ router.post('/getUserInfo',function(req,res){ //拉取用户信息接口
   }
 })
 
+router.post('/getUserList',function(req,res){ //拉取用户列表接口
+  Users.find((err,data) => {
+    res.send({returnCode: '200', returnMsg: 'success', returnData: {list:data}})
+  })
+})
+
 module.exports = router;
