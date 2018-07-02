@@ -8,6 +8,7 @@
     <h1>首页-用户列表</h1>
     <h3 class="userInfo"></h3>
     <p>Welcome to IndexPage</p>
+    <img class="postImg" src="" alt="" style="width:50%;">
     <table id="userListTable" border="1" cellpadding="0" cellspacing="0" bordercolor="black">
       <thead>
         <tr>
@@ -22,10 +23,29 @@
       <tbody>
       </tbody>
     </table>
+    <button type="button" class="testBtn">测试</button>
   </body>
   <script src="/javascripts/jquery-3.1.0.min.js"></script>
   <script>
       $(function() {
+        function dateParse(time){
+          var d = new Date(time);
+          var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
+          return times;
+        }
+        if (!window.localStorage.postImg){
+          $.ajax({
+            url:'/getImgSrc',
+            type: 'post',
+            success: function(res){
+              $('.postImg').attr('src',res.returnData);
+              window.localStorage.postImg = res.returnData;
+            }
+          })
+        }else {
+          $('.postImg').attr('src',window.localStorage.postImg);
+        }
+        
           $.ajax({
             url:'/getUserInfo',
             type:'post',
@@ -33,11 +53,13 @@
               $('.userInfo').text('欢迎你,'+res.returnData.nickname+'!');
             }
           })
+          
           $.ajax({
             url:'/getUserList',
             type:'post',
             success:function(res){
               res.returnData.list.forEach(item => {
+                item.createAt = dateParse(item.createAt);
                 var oTr = $('<tr>'+
                               '<td>'+item.username+'</td>'+
                               '<td>'+item.password+'</td>'+
@@ -49,6 +71,15 @@
                 $('#userListTable tbody').append(oTr)
               });
             }
+          });
+          $('.testBtn').click(function(){
+            $.ajax({
+              url:'/testApi',
+              type:'get',
+              success:function(res){
+                console.log(res);
+              }
+            })
           })
       })
   </script>

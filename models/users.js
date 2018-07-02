@@ -7,6 +7,9 @@ var userSchema = new Schema({
         type: String,
         unique: true
     },
+    nickname: {
+        type: String
+    },
     password: {
         type: String
     },

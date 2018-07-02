@@ -28,8 +28,8 @@ router.get('/register', function (req, res) {
 
 
 // 这里的业务逻辑将写在 两个post 路由里 
-router.post('/login', function (req, res) {
-  Users.findOne({username:req.body.username},function(err,data){
+router.post('/login', (req, res) => {
+  Users.findOne({username:req.body.username},(err,data) => {
     if (err) throw err;
     if(data === null){
       res.send({returnCode:'100',returnMsg:'用户名或密码错误！'});
@@ -44,12 +44,12 @@ router.post('/login', function (req, res) {
     }
   })
 });
-router.post('/register', function (req, res) {//注册接口
+router.post('/register', (req, res) => {//注册接口
   console.log(req.body)
-  Users.findOne({username:req.body.username},function(err,data){
+  Users.findOne({username:req.body.username},(err,data) => {
     if (err) throw err;
     if(data === null){
-      Users.create(req.body,err=>{
+      Users.create(req.body, err => {
         if (err) throw err;
         res.send({returnCode: '200', returnMsg: '添加用户成功！', returnData: req.body});
       })
@@ -59,7 +59,7 @@ router.post('/register', function (req, res) {//注册接口
   })
 });
 
-router.post('/getUserInfo',function(req,res){ //拉取用户信息接口
+router.post('/getUserInfo',(req,res) => { //拉取用户信息接口
   if(req.session.user){
     res.send({returnCode: '200', returnMsg: 'success', returnData: req.session.user});
   }else{
@@ -72,5 +72,16 @@ router.post('/getUserList',function(req,res){ //拉取用户列表接口
     res.send({returnCode: '200', returnMsg: 'success', returnData: {list:data}})
   })
 })
+
+router.post('/getImgSrc',function(req,res){
+  // 测试图片接口
+  res.send({returnCode:'200',returnMsg:'success',returnData: '/images/love.jpg'});
+})
+
+router.get('/testApi',function(req,res){
+  res.send('调用接口成功!')
+})
+
+
 
 module.exports = router;
